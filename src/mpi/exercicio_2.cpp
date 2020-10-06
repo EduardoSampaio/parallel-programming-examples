@@ -21,7 +21,7 @@ int main(int argc, char **argv)
 	{
 		for (int i = 1; i <= 100; i++)
 		{
-			int buffer_sent = 1;	
+			int buffer_sent = 1;
 			MPI_Send(&buffer_sent, 1, MPI_INT, 0, 1, MPI_COMM_WORLD);
 		}
 	}
@@ -30,12 +30,11 @@ int main(int argc, char **argv)
 		int buffer_received;
 		for (int i = 1; i <= (size - 1) * 100; i++)
 		{
-			MPI_Recv(&buffer_received, 1, MPI_INT, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);	
-			ofs << buffer_received <<endl;	
-		}		
+			MPI_Recv(&buffer_received, 1, MPI_INT, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);
+			ofs << buffer_received << endl;
+		}
 	}
 
-	
 	MPI_Finalize();
 
 	ofs.close();

@@ -1,12 +1,12 @@
 #include <iostream>
-#include <fstream> 
+#include <fstream>
 #include "mpi/mpi.h"
 
 using namespace std;
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 {
-	int size, rank, source, dest, N = 0, count, tag = 1;
+	int size, rank, source, dest, tag = 1;
 	int inmsg = 0, outmsg = 0, numero = atoi(argv[1]);
 	MPI_Status status;
 
@@ -19,17 +19,21 @@ int main(int argc, char** argv)
 
 	if (rank == 0)
 	{
-		outmsg = numero + rank;;
+		outmsg = numero + rank;
+		;
 		MPI_Send(&outmsg, 1, MPI_INT, rank + 1, tag, MPI_COMM_WORLD);
-		for (int i = 1; i < size; i++) {
+		for (int i = 1; i < size; i++)
+		{
 			MPI_Recv(&inmsg, 1, MPI_INT, i, tag, MPI_COMM_WORLD, &status);
 		}
 	}
-	else {
+	else
+	{
 		MPI_Recv(&inmsg, 1, MPI_INT, rank - 1, tag, MPI_COMM_WORLD, &status);
 		outmsg = inmsg + rank;
 
-		if (rank != size - 1) {
+		if (rank != size - 1)
+		{
 			MPI_Send(&outmsg, 1, MPI_INT, rank + 1, tag, MPI_COMM_WORLD);
 		}
 		MPI_Send(&outmsg, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
