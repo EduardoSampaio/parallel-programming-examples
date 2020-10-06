@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <mpi.h>
+#include "mpi/mpi.h"
 
 using namespace std;
 
@@ -41,3 +41,12 @@ int main(int argc, char **argv)
 	ofs.close();
 	return 0;
 }
+
+/*
+Escreva um programa que teste quão justa é a implementação da passagem de
+mensagens. Para isso, todos os processos, exceto o processo zero, deve enviar 100
+mensagens (quaisquer) para o processo zero. O processo zero deve escrever as mensagens
+recebidas num arquivo de saída. O nome do arquivo de saída deve ser um parâmetro na
+linha de comando. Use na recepção de mensagens as variáveis pré-definidas
+MPI_ANY_SOURCE e MPI_ANY_TAG. A implementação MPI é justa?
+*/
