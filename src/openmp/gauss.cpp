@@ -1,11 +1,12 @@
 #include <iostream>
 #include <time.h>
-#define N 1000
+
 
 using namespace std;
 
-int main()
+int main(int argc, char **argv)
 {
+	int N = atoi(argv[1]);
 	float b, x[N];
 	float** matriz = (float**)new float[N];
 
