@@ -30,7 +30,7 @@ int main(int argc, char **argv)
 		int buffer_received;
 		for (int i = 1; i <= (size - 1) * 100; i++)
 		{
-			MPI_Recv(&buffer_received, 1, MPI_INT, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &status);
+			MPI_Recv(&buffer_received, 1, MPI_INT, MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
 			ofs << buffer_received << endl;
 		}
 	}
@@ -48,4 +48,10 @@ mensagens (quaisquer) para o processo zero. O processo zero deve escrever as men
 recebidas num arquivo de saída. O nome do arquivo de saída deve ser um parâmetro na
 linha de comando. Use na recepção de mensagens as variáveis pré-definidas
 MPI_ANY_SOURCE e MPI_ANY_TAG. A implementação MPI é justa?
+*/
+
+
+/*
+mpic++ exercicio_2.cpp -o exercicio_2
+mpiexec -np 4 ./exercicio_2 nome_arquivo
 */

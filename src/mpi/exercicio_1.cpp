@@ -20,7 +20,6 @@ int main(int argc, char **argv)
 	if (rank == 0)
 	{
 		outmsg = numero + rank;
-		;
 		MPI_Send(&outmsg, 1, MPI_INT, rank + 1, tag, MPI_COMM_WORLD);
 		for (int i = 1; i < size; i++)
 		{
@@ -65,4 +64,12 @@ Identificação = 1 valor 13
 Identificação = 2 valor 15
 Identificação = 3 valor 18
 e assim por diante.
+*/
+
+/*
+Compilando
+
+mpic++ exercicio_1.cpp -o exercicio_1
+mpiexec -np 4 ./exercicio_1 12
+
 */

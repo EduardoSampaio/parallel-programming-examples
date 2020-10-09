@@ -39,8 +39,8 @@ int main(int argc, char **argv)
 				vetor[i] = 2.0;
 			}
 
-			MPI_Send(vetor, 1, MPI_DOUBLE, 1, tag, MPI_COMM_WORLD);
-			MPI_Recv(vetor, 1, MPI_DOUBLE, 1, tag, MPI_COMM_WORLD, &status);
+			MPI_Send(vetor, N, MPI_DOUBLE, 1, tag, MPI_COMM_WORLD);
+			MPI_Recv(vetor, N, MPI_DOUBLE, 1, tag, MPI_COMM_WORLD, &status);
 		}
 		if (rank == 1)
 		{
@@ -48,16 +48,16 @@ int main(int argc, char **argv)
 			{
 				vetor[i] = 4.0;
 			}
-			MPI_Recv(vetor, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD, &status);
-			MPI_Send(vetor, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+			MPI_Recv(vetor, N, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD, &status);
+			MPI_Send(vetor, N, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
 		}
 		count--;
 	}
 	end = MPI_Wtime();
+	cout << "Rank: " << rank << " tempo = " << end - start << endl;
 
 	MPI_Finalize();
 
-	cout << "Processo: " << rank << " tempo = " << end - start << endl;
 
 	return 0;
 }
@@ -71,4 +71,9 @@ O processo zero deve localmente trocar este valor para 2.0 e o processo um para 
 4.0. Defina uma variável para contabilizar a quantidade de vezes que cada vetor deve ser
 trocado entre os processos. A quantidade de vezes também deve ser determinada como um
 parâmetro na linha de comando.
+*/
+
+/*
+mpic++ exercicio_3.cpp -o exercicio_3
+mpiexec -np 4 ./exercicio_3 tamanho_vetor quantidade
 */

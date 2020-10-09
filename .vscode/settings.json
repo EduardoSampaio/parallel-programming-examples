@@ -4,5 +4,8 @@
         "iosfwd": "cpp",
         "ostream": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "compile-hero.disable-compile-files-on-did-save-code": true,
+    "files.exclude": {},
+    "explorerExclude.backup": null
 }
