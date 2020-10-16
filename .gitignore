@@ -32,3 +32,6 @@
 *.out
 *.app
 src/mpi/main
+src/comparation/gauss-mpi
+src/comparation/gauss
+src/comparation/gauss-omp

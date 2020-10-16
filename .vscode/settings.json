@@ -2,10 +2,17 @@
     "files.associations": {
         "iostream": "cpp",
         "iosfwd": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "type_traits": "cpp",
+        "new": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp",
+        "*.tcc": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled",
-    "compile-hero.disable-compile-files-on-did-save-code": true,
+    "compile-hero.disable-compile-files-on-did-save-code": false,
     "files.exclude": {},
     "explorerExclude.backup": null
 }
