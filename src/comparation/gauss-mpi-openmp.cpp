@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "mpi/mpi.h"
+#include <omp.h>
 
 using namespace std;
 
@@ -44,32 +45,36 @@ void swap_row(double **matriz, int i, int j, int n)
 
 void forward_Elimination(double **matriz, int begin, int end)
 {
-	for (int k = begin; k < end; k++)
+#pragma omp parallel
 	{
-
-		int i_max = k;
-		double v_max = matriz[i_max][k];
-
-		// Encontra maior pivô
-		for (int i = k + 1; i < end; i++)
+		#pragma omp for
+		for (int k = begin; k < end; k++)
 		{
-			if (abs(matriz[i][k]) > v_max)
+
+			int i_max = k;
+			double v_max = matriz[i_max][k];
+
+			// Encontra maior pivô
+			for (int i = k + 1; i < end; i++)
 			{
-				v_max = matriz[i][k], i_max = i;
+				if (abs(matriz[i][k]) > v_max)
+				{
+					v_max = matriz[i][k], i_max = i;
+				}
 			}
-		}
 
-		// Relizar troca de linha
-		if (i_max != k)
-			swap_row(matriz, k, i_max, end);
+			// Relizar troca de linha
+			if (i_max != k)
+				swap_row(matriz, k, i_max, end);
 
-		// Escalonamento
-		for (int i = k + 1; i < end; i++)
-		{
-			double f = matriz[i][k] / matriz[k][k];
-			for (int j = k + 1; j <= end; j++)
-				matriz[i][j] -= matriz[k][j] * f;
-			matriz[i][k] = 0;
+			// Escalonamento
+			for (int i = k + 1; i < end; i++)
+			{
+				double f = matriz[i][k] / matriz[k][k];
+				for (int j = k + 1; j <= end; j++)
+					matriz[i][j] -= matriz[k][j] * f;
+				matriz[i][k] = 0;
+			}
 		}
 	}
 }
