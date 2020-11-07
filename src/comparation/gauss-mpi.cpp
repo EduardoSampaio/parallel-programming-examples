@@ -95,21 +95,23 @@ int main(int argc, char *argv[])
 		int begin = (N / size) * rank;
 		int end = (N / size) * (rank + 1);
 
+
 		for (int i = 1; i < size; i++)
 		{
-			MPI_Send(matriz, N, MPI_DOUBLE, i, TAG, MPI_COMM_WORLD);
+			MPI_Send(matriz, N * N, MPI_DOUBLE, i, TAG, MPI_COMM_WORLD);
 		}
 
-		forward_Elimination(matriz, 0, N);
+		forward_Elimination(matriz, begin, end);
+		MPI_Send(matriz, N * N, MPI_DOUBLE, 1, TAG, MPI_COMM_WORLD);
 	}
 	else
 	{
-		MPI_Recv(matriz, N, MPI_DOUBLE, 0, TAG, MPI_COMM_WORLD, &status);
+		MPI_Recv(matriz, N * N, MPI_DOUBLE, 0, TAG, MPI_COMM_WORLD, &status);
 
 		int begin = (N / size) * rank;
-		int end = (N / size) * (rank - 1);
-		double **output = matriz;
-		forward_Elimination(output, begin, end);
+		int end = (N / size) * (rank + 1);
+		//forward_Elimination(matriz, begin, end);
+		//print(matriz,N - 1);
 	}
 
 	if (rank == 0)

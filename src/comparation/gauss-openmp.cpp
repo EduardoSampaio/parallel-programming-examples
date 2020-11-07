@@ -6,7 +6,6 @@ using namespace std;
 
 void init_matrix(double **matriz, int n)
 {
-
 	for (int i = 0; i < n; i++)
 	{
 		matriz[i] = (double *)new double[n + 1];
@@ -43,7 +42,6 @@ void swap_row(double **matriz, int i, int j, int n)
 
 void forward_Elimination(double **matriz, int N)
 {
-	omp_set_num_threads(4);
 #pragma omp parallel
 	{
 		#pragma omp for
@@ -60,11 +58,9 @@ void forward_Elimination(double **matriz, int N)
 					v_max = matriz[i][k], i_max = i;
 				}
 			}
-
 			// Relizar troca de linha
 			if (i_max != k)
 				swap_row(matriz, k, i_max, N);
-
 			// Escalonamento
 			for (int i = k + 1; i < N; i++)
 			{

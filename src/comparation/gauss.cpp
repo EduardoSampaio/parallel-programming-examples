@@ -3,20 +3,6 @@
 
 using namespace std;
 
-void init_matrix(double **matriz, int n) {
-
-    for (int i = 0; i <n; i++) {
-        matriz[i] = (double *) new double[n + 1];
-    }
-
-    srand(time(NULL));
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            matriz[i][j] = (double(rand()) / double(RAND_MAX)) * (100 - -100) + -100;
-        }
-    }
-}
-
 void print(double **matriz, int n) {
     for (int i = 0; i < n; i++, printf("\n"))
         for (int j = 0; j <= n; j++)
@@ -33,6 +19,32 @@ void swap_row(double **matriz, int i, int j,int n) {
     }
 }
 
+void init_matrix(double **matriz, int n) {
+
+    for (int i = 0; i <n; i++) {
+        matriz[i] = (double *) new double[n + 1];
+    }
+
+    srand(time(NULL));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matriz[i][j] = (double(rand()) / double(RAND_MAX)) * (100 - -100) + -100;
+        }
+    }
+}
+
+void back_substitution(double **matriz, int n) {
+
+    double x[n];
+    for (int i = n - 1; i >= 0; i--) {
+        x[i] = matriz[i][n];
+        for (int j = i + 1; j < n; j++) {
+            x[i] -= matriz[i][j] * x[j];
+        }
+        x[i] = x[i] / matriz[i][i];
+    }
+}
+
 void forward_Elimination(double **matriz, int N) {
     for (int k = 0; k < N; k++) {
 
@@ -45,7 +57,6 @@ void forward_Elimination(double **matriz, int N) {
                 v_max = matriz[i][k], i_max = i;
             }
         }
-
         // Relizar troca de linha
         if (i_max != k)
             swap_row(matriz, k, i_max, N);
@@ -58,7 +69,6 @@ void forward_Elimination(double **matriz, int N) {
             matriz[i][k] = 0;
         }
     }
-
 }
 
 
