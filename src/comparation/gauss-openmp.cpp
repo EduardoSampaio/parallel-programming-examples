@@ -24,44 +24,26 @@ void init_matrix(double **matriz, int n)
 void print(double **matriz, int n)
 {
 	for (int i = 0; i < n; i++, printf("\n"))
-		for (int j = 0; j <= n; j++)
+		for (int j = 0; j < n; j++)
 			printf("%lf ", matriz[i][j]);
 
 	printf("\n");
 }
 
-void swap_row(double **matriz, int i, int j, int n)
+int main(int argc, char **argv)
 {
-	for (int k = 0; k <= n; k++)
-	{
-		double temp = matriz[i][k];
-		matriz[i][k] = matriz[j][k];
-		matriz[j][k] = temp;
-	}
-}
+	int N = atoi(argv[1]);
+	double x[N];
+	double **matriz = (double **)new double[N];
 
-void forward_Elimination(double **matriz, int N)
-{
+	init_matrix(matriz, N);
+	double tempo_total_inicio = omp_get_wtime();
+
 #pragma omp parallel
 	{
-		#pragma omp for
 		for (int k = 0; k < N; k++)
 		{
-			int i_max = k;
-			double v_max = matriz[i_max][k];
-
-			// Encontra maior pivô
-			for (int i = k + 1; i < N; i++)
-			{
-				if (abs(matriz[i][k]) > v_max)
-				{
-					v_max = matriz[i][k], i_max = i;
-				}
-			}
-			// Relizar troca de linha
-			if (i_max != k)
-				swap_row(matriz, k, i_max, N);
-			// Escalonamento
+			#pragma omp for
 			for (int i = k + 1; i < N; i++)
 			{
 				double f = matriz[i][k] / matriz[k][k];
@@ -70,21 +52,23 @@ void forward_Elimination(double **matriz, int N)
 				matriz[i][k] = 0;
 			}
 		}
+
+		for (int i = N - 1; i >= 0; i--)
+		{
+			x[i] = matriz[i][N];
+			for (int j = i + 1; j < N; j++)
+			{
+				x[i] -= matriz[i][j] * x[j];
+			}
+			x[i] = x[i] / matriz[i][i];
+		}
 	}
-}
 
-int main(int argc, char **argv)
-{
-	int N = atoi(argv[1]);
-	float b, x[N];
-	double **matriz = (double **)new double[N];
-
-	init_matrix(matriz, N);
-	double tempo_total_inicio = omp_get_wtime();
-	forward_Elimination(matriz, N);
 	double tempo_total_fim = omp_get_wtime();
 	double tempo_total = (double)(tempo_total_fim - tempo_total_inicio);
 	printf("\nTempo de execucao Tempo Total OMP: %.4f segundos\n", tempo_total);
+
+	// print(matriz, N);
 
 	delete[] matriz;
 
